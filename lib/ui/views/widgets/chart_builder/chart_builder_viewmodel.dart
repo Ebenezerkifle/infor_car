@@ -1,10 +1,29 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:infor_car/models/feul_model.dart';
+import 'package:infor_car/providers/data_provider.dart';
 import 'package:infor_car/ui/common/app_colors.dart';
 import 'package:infor_car/ui/common/app_text_style.dart';
 import 'package:stacked/stacked.dart';
 
-class ChartBuilderViewModel extends BaseViewModel {
+import '../../../../app/app.locator.dart';
+
+class ChartBuilderViewModel extends ReactiveViewModel {
+  final _dataProvider = locator<DataProvider>();
+
+  ChartBuilderViewModel() {
+    _init();
+  }
+
+  @override
+  List<ListenableServiceMixin> get listenableServices => [_dataProvider];
+
+  _init() async {
+    setBusy(true);
+    await _dataProvider.getGraphData();
+    setBusy(false);
+  }
+
   LineTouchData lineTouchData() =>
       const LineTouchData(handleBuiltInTouches: true);
 
@@ -113,22 +132,18 @@ class ChartBuilderViewModel extends BaseViewModel {
         isStrokeCapRound: true,
         dotData: const FlDotData(show: true),
         belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(0, 1),
-          FlSpot(1, 0),
-          FlSpot(2, 2),
-          FlSpot(3, 2),
-          FlSpot(4, 3),
-          FlSpot(5, 1),
-          FlSpot(6, 0),
-          FlSpot(7, 1),
-          FlSpot(8, 0),
-          FlSpot(9, 2),
-          FlSpot(10, 2),
-          FlSpot(11, 3),
-          FlSpot(12, 1),
-        ],
+        spots: _batteryData(),
       );
+
+  List<FlSpot> _batteryData() {
+    List<FlSpot> listData = [];
+    List<GraphModel> batteryData = _dataProvider.batteryGraph;
+    for (int i = 0; i < 12; i++) {
+      var flSpot = FlSpot(i + 0, ((batteryData[i].maxValue ?? 0) / 10) + 0.0);
+      listData.add(flSpot);
+    }
+    return listData;
+  }
 
   LineChartBarData lineChartBarDataPreviousWeek() => LineChartBarData(
         isCurved: true,
@@ -138,22 +153,18 @@ class ChartBuilderViewModel extends BaseViewModel {
         isStrokeCapRound: true,
         dotData: const FlDotData(show: true),
         belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(0, 0),
-          FlSpot(1, 1),
-          FlSpot(2, 2),
-          FlSpot(3, 4),
-          FlSpot(4, 5),
-          FlSpot(5, 6),
-          FlSpot(6, 7),
-          FlSpot(7, 8),
-          FlSpot(8, 9),
-          FlSpot(9, 0),
-          FlSpot(10, 1),
-          FlSpot(11, 2),
-          FlSpot(12, 3),
-        ],
+        spots: _feulData(),
       );
+
+  List<FlSpot> _feulData() {
+    List<FlSpot> listData = [];
+    List<GraphModel> feulGraph = _dataProvider.feulGraph;
+    for (int i = 0; i < 12; i++) {
+      var flSpot = FlSpot(i + 0, ((feulGraph[i].maxValue ?? 0) / 10) + 0.0);
+      listData.add(flSpot);
+    }
+    return listData;
+  }
 
   LineChartData get lineChartData => LineChartData(
         lineTouchData: lineTouchData(),

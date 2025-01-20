@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:infor_car/ui/common/app_colors.dart';
 import 'package:infor_car/ui/common/app_text_style.dart';
 import 'package:infor_car/ui/common/ui_helpers.dart';
+import 'package:infor_car/ui/views/widgets/shimmer_loading.dart';
 import 'package:stacked/stacked.dart';
 
 import 'package:infor_car/ui/views/widgets/chart_builder/chart_builder_viewmodel.dart';
@@ -32,20 +33,23 @@ class ChartBuilderView extends StackedView<ChartBuilderViewModel> {
   @override
   Widget builder(
       BuildContext context, ChartBuilderViewModel viewModel, Widget? child) {
-    return Container(
-      height: screenHeight(context) * .35,
-      color: secondaryColor,
-      padding: const EdgeInsets.symmetric(
-          vertical: smallSize, horizontal: smallSize),
-      child: Column(children: [
-        Expanded(child: LineChart(viewModel.lineChartData)),
-        Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          _widget('Feul', errorColor),
-          horizontalSpaceSmall,
-          _widget('Battery', primaryDarkColor)
-        ])
-      ]),
-    );
+    return ShimmerLoading(
+        isLoading: viewModel.isBusy,
+        child: viewModel.isBusy
+            ? Container(height: screenHeight(context) * .30, color: whiteColor)
+            : Container(
+                height: screenHeight(context) * .35,
+                color: secondaryColor,
+                padding: const EdgeInsets.symmetric(
+                    vertical: smallSize, horizontal: smallSize),
+                child: Column(children: [
+                  Expanded(child: LineChart(viewModel.lineChartData)),
+                  Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                    _widget('Feul', errorColor),
+                    horizontalSpaceSmall,
+                    _widget('Battery', primaryDarkColor)
+                  ])
+                ])));
   }
 
   @override
