@@ -1,3 +1,3 @@
-# infor_car
+# info_car
 
 A new Flutter project.
