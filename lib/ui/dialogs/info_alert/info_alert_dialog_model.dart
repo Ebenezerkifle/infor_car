@@ -14,9 +14,7 @@ class InfoAlertDialogModel extends ReactiveViewModel {
   TextEditingController controller = TextEditingController();
 
   onSubmit() async {
-    print('here we are');
     double? value = _manipulateValue(controller.text);
-    print(value);
     if (value == null) return;
     setBusy(true);
     var data = FeulModel(value: value, feul: _dataProvider.feul);

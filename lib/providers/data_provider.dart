@@ -7,7 +7,8 @@ import 'package:stacked/stacked.dart';
 
 class DataProvider with ListenableServiceMixin {
   DataProvider() {
-    listenToReactiveValues([]);
+    listenToReactiveValues(
+        [_feulData, _batteryData, _feulGraph, _batteryGraph]);
   }
 
   final _feulData = ReactiveValue(FeulModel());

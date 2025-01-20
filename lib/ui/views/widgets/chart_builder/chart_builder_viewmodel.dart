@@ -54,27 +54,28 @@ class ChartBuilderViewModel extends ReactiveViewModel {
       );
 
   SideTitleWidget bottomTitleWidgets(double value, TitleMeta meta) {
-    String text = switch (value.toInt()) {
-      0 => '6am',
-      1 => '7am',
-      2 => '8am',
-      3 => '9am',
-      4 => '10am',
-      5 => '11am',
-      6 => '12am',
-      7 => '1pm',
-      8 => '2pm',
-      9 => '3pm',
-      10 => '4pm',
-      11 => '5pm',
-      12 => '6pm',
-      _ => '',
-    };
+    // String text = switch (value.toInt()) {
+    //   0 => '6am',
+    //   1 => '7am',
+    //   2 => '8am',
+    //   3 => '9am',
+    //   4 => '10am',
+    //   5 => '11am',
+    //   6 => '12am',
+    //   7 => '1pm',
+    //   8 => '2pm',
+    //   9 => '3pm',
+    //   10 => '4pm',
+    //   11 => '5pm',
+    //   12 => '6pm',
+    //   _ => '',
+    // };
+    var feuldata = _dataProvider.batteryGraph;
 
     return SideTitleWidget(
       axisSide: meta.axisSide,
       space: 10,
-      child: Text(text,
+      child: Text(feuldata[value.toInt()].hour ?? '',
           style: ultraLight.copyWith(color: grey80Color, fontSize: 8)),
     );
   }
@@ -173,7 +174,7 @@ class ChartBuilderViewModel extends ReactiveViewModel {
         borderData: borderData(),
         lineBarsData: lineBarsData(),
         minX: 0,
-        maxX: 12,
+        maxX: 11,
         minY: 0,
         maxY: 10,
       );
