@@ -1,14 +1,18 @@
 name: infor_car
 description: A new Flutter project.
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
-  sdk: '>=3.0.3 <4.0.0'
+  sdk: ">=3.0.3 <4.0.0"
 
 dependencies:
+  cached_network_image: ^3.4.1
   flutter:
     sdk: flutter
+  flutter_svg: ^2.0.17
+  font_awesome_flutter: ^10.8.0
+  loading_animation_widget: ^1.3.0
   stacked: ^3.4.0
   stacked_services: ^1.1.0
 
@@ -23,3 +27,10 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+  fonts:
+    - family: PlusJakartaSans
+      fonts:
+        - asset: fonts/PlusJakartaSans-Bold.ttf
+          weight: 700
+        - asset: fonts/PlusJakartaSans-Regular.ttf
+          style: normal

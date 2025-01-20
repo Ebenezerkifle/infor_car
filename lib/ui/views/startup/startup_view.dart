@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:infor_car/ui/common/app_colors.dart';
+import 'package:infor_car/ui/common/app_text_style.dart';
 import 'package:stacked/stacked.dart';
 import 'package:infor_car/ui/common/ui_helpers.dart';
 
@@ -14,29 +16,35 @@ class StartupView extends StackedView<StartupViewModel> {
     StartupViewModel viewModel,
     Widget? child,
   ) {
-    return const Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+    return Scaffold(
+      body: SafeArea(
+        child: Stack(
+          alignment: Alignment.bottomCenter,
           children: [
-            Text(
-              'STACKED',
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.w900),
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text('Loading ...', style: TextStyle(fontSize: 16)),
-                horizontalSpaceSmall,
-                SizedBox(
-                  width: 16,
-                  height: 16,
-                  child: CircularProgressIndicator(
-                    color: Colors.black,
-                    strokeWidth: 6,
-                  ),
-                )
-              ],
+            SizedBox(
+                height: screenHeight(context),
+                child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('INFO',
+                                style: extraBold.copyWith(
+                                    color: lineBlackColor, fontSize: 40)),
+                            Text('CAR',
+                                style: extraBold.copyWith(
+                                    color: primaryColor, fontSize: 40))
+                          ])
+                    ])),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: mediumSize),
+              child: LinearProgressIndicator(
+                minHeight: tinySize,
+                borderRadius: BorderRadius.circular(middleSize),
+              ),
             ),
           ],
         ),
@@ -45,10 +53,7 @@ class StartupView extends StackedView<StartupViewModel> {
   }
 
   @override
-  StartupViewModel viewModelBuilder(
-    BuildContext context,
-  ) =>
-      StartupViewModel();
+  StartupViewModel viewModelBuilder(BuildContext context) => StartupViewModel();
 
   @override
   void onViewModelReady(StartupViewModel viewModel) => SchedulerBinding.instance
